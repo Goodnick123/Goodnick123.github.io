@@ -22,30 +22,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+
+      - name: Install Hexo CLI
+        run: npm install -g hexo-cli
 
       - name: Install Dependencies
         run: |
           npm install
-          npm install hexo-theme-landscape --save
+          npm install hexo-theme-landscape
 
       - name: Build Hexo
         run: |
-          npx hexo clean
-          npx hexo generate
+          hexo clean
+          hexo generate
 
       - name: Create .nojekyll
         run: touch public/.nojekyll
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
